@@ -54,3 +54,4 @@ dic = Dictionary(500)
 dic.insert("Anders Sipinen", "0702563111")
 
 dic.delete("Anders Sipinen")
+dic.delete("a")
