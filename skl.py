@@ -179,3 +179,4 @@ menu()
 
 // Test edit of text from git online
 // test update from file
+// test git directly form vim
