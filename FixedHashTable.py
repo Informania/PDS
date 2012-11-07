@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 """*************************
 * HashTable Dictionary
 * Author: Joakim Lundkvist
@@ -7,13 +9,17 @@
 class Dictionary:
     # Initialize dictionary
     def __init__(self, size):
-	self.__table = ["NaN"] * size
+	self.__table = ["Empty"] * size
     
     # Insert value having key (returns None)
     def insert(self, key, value):
 	index = hash(key) % len(self.__table)
 	data = [key, value]
-	self.__table[index] = data
+        if self.__table[index] == "Empty":
+            self.__table[index] = data
+        else:
+            data = [self.__table[index]] + [data]
+            self.__table[index] = data
 	print "Adding %s to position %i" % (key, index)
     
     # Delete value having key (returns None)
@@ -29,10 +35,16 @@ class Dictionary:
     def find(self, key):
     	index = hash(key) % len(self.__table)
     	item = self.__table[index]
-    	if item != "NaN":
-    	    return index
-    	else:
-	    print "Cant find item"
+    	if len(item) >= 1:
+            for each in item:
+                if key == each[0]:
+                    return index
+            print "Can't find item"
+        elif item == "Empty":
+            print "Can't find item"
+        else:
+            print "Found!"
+            return index
 
     def hash(self, key):
         h = 5381
@@ -43,14 +55,35 @@ class Dictionary:
     # for every value v apply f(v) exactly once
     # (returns None)
     def traverse(self, f):
-        pass   # Abstract method, add your own code
+        length = len(self.__table) -1
+        for each in range(0, length):
+            f(self.__table[each])
 
     # Returns string representation of dictionary
     def __str__(self):
-        return str(self)  # Abstract method, add your own code
+        self.string = ''
+        self.traverse(self.toString)
+        return self.string
+
+    def toString(self, value):
+    ## TODO Buggar om det är mer än 2 värden på samma index i hashtabellen.    
+        if value == "Empty":
+            pass 
+        else:
+            for each in value:
+                if len(each) == 2:
+                    for i in each:
+                        self.string += "%s " % i
+                    self.string += "\t"
+                else:        
+                    self.string += "%s " % each
 
 
 dic = Dictionary(500)
 dic.insert("Anders Sipinen", "0702563111")
+dic.insert("Anders Sipinen", "0702563111")
+dic.insert("Joakim", "0770273821")
+dic.insert("Joakim", "0770273821")
+dic.find("Anders Sipinen")
 
-dic.delete("Anders Sipinen")
+print dic
