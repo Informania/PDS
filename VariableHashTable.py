@@ -98,8 +98,8 @@ class Dictionary:
 
 
 dic = Dictionary()
-dic.insert("Anders Sipinen", "0702563111")
-dic.insert("Anders Sipinen", "0702563111")
+dic.insert("Anders", "0702563111")
+dic.insert("Anders", "0702563111")
 dic.insert("Joakim", "0770273821")
 dic.insert("Joak", "0770273821")
 dic.find("Anders Sipinen")
