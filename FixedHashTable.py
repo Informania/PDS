@@ -46,7 +46,8 @@ class Dictionary:
         else:
             print "Found!"
             return index
-
+    
+    # Hash function for choosing index
     def hash(self, key):
         h = 5381
         for char in str(key):
@@ -67,7 +68,6 @@ class Dictionary:
         return self.string
 
     def toString(self, value):
-    ## TODO Buggar om det är mer än 2 värden på samma index i hashtabellen.    
         if value == "Empty":
             pass 
         else:
