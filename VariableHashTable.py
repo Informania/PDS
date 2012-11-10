@@ -36,44 +36,63 @@ class Dictionary:
         else:
             print "Can't delete item, it doesn't exist"
 
-    # Return value having key, returns None if
+   # Return value having key, returns None if
     def find(self, key):
     	index = hash(key) % len(self.__table)
     	item = self.__table[index]
-    	if len(item) >= 1:
+    	if len(item) >= 3:
             for each in item:
-                if key == each[0]:
+                if key == each:
+                    print "Found on index %s" % index
                     return index
-            print "Can't find item"
+            print "Can't find item '%s'" % key
         elif item == "Empty":
-            print "Can't find item"
+            print "Can't find item %s, index is empty" % key
         else:
             print "Found!"
             return index
-
+    
+    # Hash function for choosing index
     def hash(self, key):
         h = 5381
         for char in str(key):
 	    h = (h<<5) + h + ord(char)
 	return h
 
-    def reHash(self): 
-        oldTable = self.__table
+    # Fucntion to rehash table if full on insert
+    def reHash(self):
+        oldTable = self.__table # Saves the old data
         self.__size = self.__size * 2
-        print "doubling size"
         self.__table = ["Empty"] * self.__size
+        print "Table full, doubling. New size = %s" % self.__size
         self.__numberOfItems = 0
-        for each in oldTable:
-            print each
-            key = str(each[0])
-            value = str(each[1])
-            self.insert(key, value)
 
+        for each in oldTable:
+            # Pass if empty
+            if each == "Empty":
+                pass
+            # If more than one item exists on current index
+            elif len(each) >= 3:
+                counter = 0
+                for item in each:
+                    if counter == 0:
+                        key = str(item)
+                        counter += 1
+                    else:
+                        value = item
+                        counter = 0
+                        self.insert(key, value)
+
+            # Only one item exists on index, insert        
+            else:
+                key = str(each[0])
+                value = each[1]
+                self.insert(key, value)
 
     # for every value v apply f(v) exactly once
     # (returns None)
     def traverse(self, f):
-        length = len(self.__table) -1
+        length = len(self.__table)
         for each in range(0, length):
             f(self.__table[each])
 
@@ -84,24 +103,28 @@ class Dictionary:
         return self.string
 
     def toString(self, value):
-    ## TODO Buggar om det är mer än 2 värden på samma index i hashtabellen.    
         if value == "Empty":
             pass 
         else:
+            count = 0
             for each in value:
-                if len(each) == 2:
-                    for i in each:
-                        self.string += "%s " % i
-                    self.string += "\t"
-                else:        
-                    self.string += "%s " % each
-
+                self.string += "%s" % each
+                if count == 1:
+                    count = 0
+                    self.string += ", "
+                else:
+                    self.string += " - "
+                    count += 1
 
 dic = Dictionary()
-dic.insert("Anders", "0702563111")
-dic.insert("Anders", "0702563111")
-dic.insert("Joakim", "0770273821")
-dic.insert("Joak", "0770273821")
-dic.find("Anders")
+dic.insert("Sat", "0702563111")
+dic.insert("Ande", "0702563111")
+dic.insert("Jo", "0770273821")
+dic.insert("Oldie", "12328")
+dic.insert("asd", "2831")
+dic.insert("ssajkhdsa", "8973921")
+dic.insert("Ande", "0702563111")
+dic.insert("Ande", "0702563111")
+dic.find("Jo")
 
 print dic
