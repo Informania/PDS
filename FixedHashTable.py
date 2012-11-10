@@ -18,7 +18,7 @@ class Dictionary:
         if self.__table[index] == "Empty":
             self.__table[index] = data
         else:
-            data = [self.__table[index]] + [data]
+            data = self.__table[index] + data
             self.__table[index] = data
 	print "Adding %s to position %i" % (key, index)
     
@@ -35,13 +35,14 @@ class Dictionary:
     def find(self, key):
     	index = hash(key) % len(self.__table)
     	item = self.__table[index]
-    	if len(item) >= 1:
+    	if len(item) >= 3:
             for each in item:
-                if key == each[0]:
+                if key == each:
+                    print "Found on index %s" % index
                     return index
-            print "Can't find item"
+            print "Can't find item '%s'" % key
         elif item == "Empty":
-            print "Can't find item"
+            print "Can't find item %s, index is empty" % key
         else:
             print "Found!"
             return index
@@ -70,13 +71,15 @@ class Dictionary:
         if value == "Empty":
             pass 
         else:
+            count = 0
             for each in value:
-                if len(each) == 2:
-                    for i in each:
-                        self.string += "%s " % i
-                    self.string += "\t"
-                else:        
-                    self.string += "%s " % each
+                self.string += "%s" % each
+                if count == 1:
+                    count = 0
+                    self.string += ", "
+                else:
+                    self.string += " - "
+                    count += 1
 
 
 dic = Dictionary(500)
@@ -87,3 +90,4 @@ dic.insert("Joakim", "0770273821")
 dic.find("Anders")
 
 print dic
+

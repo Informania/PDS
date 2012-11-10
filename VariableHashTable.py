@@ -20,7 +20,7 @@ class Dictionary:
         if self.__table[index] == "Empty":
             self.__table[index] = data
         else:
-            data = [self.__table[index]] + [data]
+            data = self.__table[index] + data
             self.__table[index] = data
 	print "Adding %s to position %i" % (key, index)
 	self.__numberOfItems += 1
